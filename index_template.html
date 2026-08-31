@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sarwar Alam — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0a121f;
+    --bg-alt: #0d1826;
+    --surface: #101d30;
+    --surface-2: #14243a;
+    --line: #223350;
+    --text: #e8eef7;
+    --muted: #8ca0ba;
+    --accent: #52d1c6;
+    --accent-2: #5ea1e8;
+    --verified: #7be6a8;
+    --shadow: 0 20px 50px -20px rgba(0,0,0,0.6);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:
+      radial-gradient(ellipse 900px 500px at 15% -10%, rgba(94,161,232,0.14), transparent 60%),
+      radial-gradient(ellipse 700px 500px at 100% 10%, rgba(82,209,198,0.10), transparent 60%),
+      var(--bg);
+    color:var(--text);
+    font-family:'Inter', sans-serif;
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+  .mono{font-family:'JetBrains Mono', monospace;}
+  h1,h2,h3{font-family:'Space Grotesk', sans-serif;}
+  a{color:inherit;}
+  .wrap{max-width:1100px; margin:0 auto; padding:0 24px;}
+
+  /* background grid texture */
+  .grid-bg{
+    position:fixed; inset:0; z-index:-1; pointer-events:none;
+    background-image:
+      linear-gradient(rgba(140,160,186,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(140,160,186,0.05) 1px, transparent 1px);
+    background-size: 42px 42px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 90%);
+  }
+
+  /* NAV */
+  nav{
+    position:sticky; top:0; z-index:50;
+    backdrop-filter:blur(14px);
+    background:rgba(10,18,31,0.72);
+    border-bottom:1px solid var(--line);
+  }
+  nav .wrap{display:flex; align-items:center; justify-content:space-between; height:64px;}
+  .brand{font-weight:600; font-size:17px; letter-spacing:0.02em;}
+  .brand .dot{color:var(--accent);}
+  .navlinks{display:flex; gap:28px; font-size:14px; color:var(--muted);}
+  .navlinks a{text-decoration:none; transition:color .2s;}
+  .navlinks a:hover{color:var(--text);}
+
+  /* HERO */
+  .hero{padding:88px 0 64px;}
+  .hero .wrap{display:grid; grid-template-columns:1.2fr 0.8fr; gap:56px; align-items:center;}
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-size:12px; letter-spacing:0.08em; color:var(--verified);
+    background:rgba(123,230,168,0.08); border:1px solid rgba(123,230,168,0.25);
+    padding:5px 12px; border-radius:20px; margin-bottom:20px;
+  }
+  .eyebrow .pulse{width:6px; height:6px; border-radius:50%; background:var(--verified); box-shadow:0 0 0 0 rgba(123,230,168,0.6); animation:pulse 2s infinite;}
+  @keyframes pulse{
+    0%{box-shadow:0 0 0 0 rgba(123,230,168,0.5);}
+    70%{box-shadow:0 0 0 8px rgba(123,230,168,0);}
+    100%{box-shadow:0 0 0 0 rgba(123,230,168,0);}
+  }
+  .hero h1{font-size:52px; font-weight:700; line-height:1.08; letter-spacing:-0.01em;}
+  .hero h1 span{color:var(--accent);}
+  .hero .role{margin-top:14px; font-size:18px; color:var(--muted); font-weight:500;}
+  .hero .desc{margin-top:18px; max-width:520px; color:var(--muted); font-size:15px;}
+  .cta-row{display:flex; gap:14px; margin-top:32px; flex-wrap:wrap;}
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    padding:12px 22px; border-radius:10px; font-size:14px; font-weight:600;
+    cursor:pointer; border:1px solid transparent; text-decoration:none;
+    transition:transform .18s ease, box-shadow .18s ease, background .18s ease;
+  }
+  .btn-primary{background:linear-gradient(135deg, var(--accent), var(--accent-2)); color:#06121a;}
+  .btn-primary:hover{transform:translateY(-2px); box-shadow:0 10px 24px -8px rgba(82,209,198,0.5);}
+  .btn-outline{border-color:var(--line); color:var(--text); background:rgba(255,255,255,0.02);}
+  .btn-outline:hover{border-color:var(--accent); color:var(--accent); transform:translateY(-2px);}
+
+  .contact-row{display:flex; gap:18px; margin-top:26px; font-size:13px; color:var(--muted); flex-wrap:wrap;}
+  .contact-row a{text-decoration:none; display:flex; align-items:center; gap:6px; transition:color .2s;}
+  .contact-row a:hover{color:var(--accent);}
+
+  /* photo frame with scan line signature */
+  .photo-frame{
+    position:relative; width:100%; max-width:320px; margin:0 auto;
+    aspect-ratio:1/1; border-radius:24px; overflow:hidden;
+    border:1px solid var(--line);
+    box-shadow:var(--shadow), 0 0 0 1px rgba(82,209,198,0.08);
+  }
+  .photo-frame img{width:100%; height:100%; object-fit:cover; display:block;}
+  .photo-frame::after{
+    content:''; position:absolute; left:0; right:0; height:2px;
+    background:linear-gradient(90deg, transparent, var(--accent), transparent);
+    box-shadow:0 0 12px 2px rgba(82,209,198,0.7);
+    animation:scan 3.2s ease-in-out infinite;
+  }
+  @keyframes scan{
+    0%{top:2%; opacity:0;} 8%{opacity:1;} 50%{top:96%; opacity:1;} 58%{opacity:0;} 100%{top:96%; opacity:0;}
+  }
+  .photo-frame .corner-tag{
+    position:absolute; bottom:12px; left:12px; right:12px;
+    font-size:11px; color:var(--verified); background:rgba(6,18,26,0.6);
+    border:1px solid rgba(123,230,168,0.3); padding:6px 10px; border-radius:8px;
+    backdrop-filter:blur(6px); display:flex; align-items:center; gap:6px;
+  }
+
+  /* SECTION LABELS */
+  .section{padding:70px 0;}
+  .section-head{margin-bottom:36px;}
+  .section-tag{font-size:12px; letter-spacing:0.1em; color:var(--accent); text-transform:uppercase; margin-bottom:10px;}
+  .section-title{font-size:30px; font-weight:700;}
+  .section-sub{color:var(--muted); font-size:14px; margin-top:8px; max-width:560px;}
+
+  /* SKILLS */
+  .chip-group{margin-bottom:18px;}
+  .chip-label{font-size:12px; color:var(--muted); margin-bottom:10px; text-transform:uppercase; letter-spacing:0.06em;}
+  .chips{display:flex; flex-wrap:wrap; gap:10px;}
+  .chip{
+    padding:7px 14px; border-radius:8px; font-size:13px;
+    background:var(--surface); border:1px solid var(--line); color:var(--text);
+  }
+
+  /* CV VIEWER */
+  .doc-window{
+    background:var(--surface); border:1px solid var(--line); border-radius:16px;
+    overflow:hidden; box-shadow:var(--shadow);
+  }
+  .doc-titlebar{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:12px 18px; background:var(--surface-2); border-bottom:1px solid var(--line);
+  }
+  .doc-titlebar .dots{display:flex; gap:7px;}
+  .doc-titlebar .dots span{width:11px; height:11px; border-radius:50%; display:inline-block;}
+  .dots .r{background:#ef6b6b;} .dots .y{background:#eec463;} .dots .g{background:#7be6a8;}
+  .doc-titlebar .filename{font-size:12.5px; color:var(--muted); display:flex; align-items:center; gap:8px;}
+  .doc-titlebar .filename .verified-badge{
+    color:var(--verified); background:rgba(123,230,168,0.08); border:1px solid rgba(123,230,168,0.25);
+    padding:2px 8px; border-radius:12px; font-size:10.5px;
+  }
+  .doc-body{
+    background:#0c1728; display:flex; justify-content:center; padding:28px;
+    max-height:640px; overflow:auto;
+  }
+  .doc-body img{
+    max-width:100%; height:auto; border-radius:4px; box-shadow:0 10px 40px rgba(0,0,0,0.5);
+    transition:transform .25s ease; cursor:zoom-in; transform-origin:top center;
+  }
+  .doc-body img.zoomed{cursor:zoom-out;}
+  .doc-controls{
+    display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;
+    padding:14px 18px; border-top:1px solid var(--line); background:var(--surface-2);
+  }
+  .doc-controls .zoom-controls{display:flex; align-items:center; gap:10px;}
+  .icon-btn{
+    width:34px; height:34px; border-radius:8px; display:flex; align-items:center; justify-content:center;
+    background:var(--surface); border:1px solid var(--line); cursor:pointer; color:var(--text);
+    transition:border-color .2s, color .2s;
+  }
+  .icon-btn:hover{border-color:var(--accent); color:var(--accent);}
+  .zoom-pct{font-size:12.5px; color:var(--muted); min-width:42px; text-align:center;}
+  .doc-actions{display:flex; gap:10px;}
+
+  /* CERT GRID */
+  .cert-grid{display:grid; grid-template-columns:repeat(3, 1fr); gap:22px;}
+  .cert-card{
+    background:var(--surface); border:1px solid var(--line); border-radius:14px;
+    overflow:hidden; cursor:pointer; position:relative;
+    transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+  }
+  .cert-card:hover{transform:translateY(-5px); border-color:rgba(82,209,198,0.4); box-shadow:0 18px 40px -14px rgba(82,209,198,0.25);}
+  .cert-thumb{aspect-ratio:4/3; overflow:hidden; background:#08121e; position:relative;}
+  .cert-thumb img{width:100%; height:100%; object-fit:cover; transition:transform .4s ease; display:block;}
+  .cert-card:hover .cert-thumb img{transform:scale(1.06);}
+  .cert-status{
+    position:absolute; top:10px; right:10px; font-size:10px; letter-spacing:0.04em;
+    background:rgba(6,18,26,0.75); color:var(--verified); border:1px solid rgba(123,230,168,0.35);
+    padding:4px 9px; border-radius:20px; backdrop-filter:blur(4px);
+  }
+  .cert-info{padding:16px 18px 18px;}
+  .cert-name{font-size:15.5px; font-weight:600; margin-bottom:4px;}
+  .cert-org{font-size:13px; color:var(--accent); margin-bottom:2px;}
+  .cert-date{font-size:12px; color:var(--muted); margin-bottom:10px;}
+  .cert-desc{font-size:12.5px; color:var(--muted); margin-bottom:14px; line-height:1.5;}
+  .cert-view{
+    font-size:13px; color:var(--text); display:inline-flex; align-items:center; gap:6px;
+    border:1px solid var(--line); padding:7px 12px; border-radius:8px; transition:all .2s;
+  }
+  .cert-card:hover .cert-view{border-color:var(--accent); color:var(--accent);}
+
+  /* LIGHTBOX */
+  .lightbox-overlay{
+    position:fixed; inset:0; background:rgba(4,9,16,0.92); backdrop-filter:blur(6px);
+    z-index:200; display:none; align-items:center; justify-content:center; flex-direction:column;
+    animation:fadeIn .2s ease;
+  }
+  @keyframes fadeIn{from{opacity:0;} to{opacity:1;}}
+  .lightbox-overlay.active{display:flex;}
+  .lightbox-top{
+    position:absolute; top:0; left:0; right:0; display:flex; justify-content:space-between; align-items:center;
+    padding:18px 26px; color:var(--muted); font-size:13px;
+  }
+  .lightbox-top .lb-title{color:var(--text); font-weight:600;}
+  .lightbox-close{
+    width:38px; height:38px; border-radius:50%; background:rgba(255,255,255,0.06); border:1px solid var(--line);
+    color:var(--text); font-size:18px; cursor:pointer; display:flex; align-items:center; justify-content:center;
+    transition:background .2s;
+  }
+  .lightbox-close:hover{background:rgba(255,255,255,0.14);}
+  .lightbox-stage{max-width:88vw; max-height:72vh; display:flex; align-items:center; justify-content:center; position:relative;}
+  .lightbox-stage img{max-width:88vw; max-height:72vh; object-fit:contain; border-radius:6px; box-shadow:0 30px 80px rgba(0,0,0,0.6); transition:transform .2s ease;}
+  .lightbox-nav{
+    position:absolute; top:50%; transform:translateY(-50%); width:46px; height:46px; border-radius:50%;
+    background:rgba(255,255,255,0.06); border:1px solid var(--line); color:var(--text); font-size:20px;
+    cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background .2s;
+  }
+  .lightbox-nav:hover{background:rgba(255,255,255,0.16);}
+  .lb-prev{left:-70px;} .lb-next{right:-70px;}
+  .lightbox-bottom{
+    margin-top:22px; display:flex; gap:12px; align-items:center;
+  }
+  @media (max-width:900px){
+    .lb-prev{left:8px;} .lb-next{right:8px;}
+  }
+
+  /* ABOUT / EDUCATION */
+  .about-grid{display:grid; grid-template-columns:1fr 1fr; gap:40px;}
+  .timeline-item{
+    padding:16px 0 16px 22px; border-left:2px solid var(--line); position:relative; margin-bottom:4px;
+  }
+  .timeline-item::before{
+    content:''; position:absolute; left:-7px; top:20px; width:12px; height:12px; border-radius:50%;
+    background:var(--bg); border:2px solid var(--accent);
+  }
+  .timeline-item h4{font-size:15px; font-weight:600;}
+  .timeline-item .t-org{font-size:13px; color:var(--accent); margin-top:2px;}
+  .timeline-item .t-meta{font-size:12px; color:var(--muted); margin-top:4px;}
+
+  footer{border-top:1px solid var(--line); padding:36px 0; text-align:center; color:var(--muted); font-size:13px;}
+  footer .brand{margin-bottom:10px;}
+
+  @media (max-width:860px){
+    .hero .wrap{grid-template-columns:1fr; text-align:center;}
+    .hero .desc{margin:18px auto 0;}
+    .contact-row{justify-content:center;}
+    .cta-row{justify-content:center;}
+    .cert-grid{grid-template-columns:repeat(2,1fr);}
+    .about-grid{grid-template-columns:1fr;}
+    .hero h1{font-size:38px;}
+    .navlinks{display:none;}
+  }
+  @media (max-width:560px){
+    .cert-grid{grid-template-columns:1fr;}
+    .doc-body{padding:14px;}
+  }
+  :focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important; transition:none !important;}
+  }
+</style>
+</head>
+<body>
+<div class="grid-bg"></div>
+
+<nav>
+  <div class="wrap">
+    <div class="brand">Sarwar Alam<span class="dot">.</span></div>
+    <div class="navlinks">
+      <a href="#resume">Resume</a>
+      <a href="#certificates">Certificates</a>
+      <a href="#education">Education</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow"><span class="pulse"></span><span class="mono">CSE STUDENT · NETWORK &amp; SYSTEMS</span></div>
+      <h1>Sarwar <span>Alam</span></h1>
+      <div class="role">B.Tech, Computer Science &amp; Engineering — Lovely Professional University</div>
+      <p class="desc">I build small, working systems — from network monitors and automated parking detection to light-driven curtain controllers — and I like documenting them properly. Currently exploring network security, Python automation, and embedded C/C++.</p>
+      <div class="cta-row">
+        <a href="#resume" class="btn btn-primary">View Full CV</a>
+        <a id="downloadCvBtn" class="btn btn-outline" href="#" download="Sarwar_Alam_CV.jpg">Download CV</a>
+      </div>
+      <div class="contact-row">
+        <a href="mailto:sarwar11012006@gmail.com">✉ sarwar11012006@gmail.com</a>
+        <a href="tel:+919341097330">☎ +91 9341097330</a>
+        <a href="https://www.linkedin.com/in/sarwar-alam-b26a47392/" target="_blank" rel="noopener">in LinkedIn</a>
+        <a href="https://github.com/sarwarAlam11" target="_blank" rel="noopener">⌥ GitHub</a>
+      </div>
+    </div>
+    <div>
+      <div class="photo-frame">
+        <img src="images/profile.jpg" alt="Sarwar Alam" />
+        <div class="corner-tag mono">● IDENTITY VERIFIED</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="chip-group">
+      <div class="chip-label">Languages</div>
+      <div class="chips">
+        <span class="chip">C++</span><span class="chip">Python</span><span class="chip">C</span>
+      </div>
+    </div>
+    <div class="chip-group">
+      <div class="chip-label">Tools &amp; Platforms</div>
+      <div class="chips">
+        <span class="chip">MongoDB</span><span class="chip">MySQL Server</span><span class="chip">PostgreSQL</span>
+        <span class="chip">Nmap</span><span class="chip">Wireshark</span><span class="chip">OpenCV</span><span class="chip">Arduino</span>
+      </div>
+    </div>
+    <div class="chip-group">
+      <div class="chip-label">Soft Skills</div>
+      <div class="chips">
+        <span class="chip">Problem-Solving</span><span class="chip">Team Player</span><span class="chip">Project Management</span>
+        <span class="chip">Adaptability</span><span class="chip">Critical Thinking</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="resume">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-tag">01 — Resume</div>
+      <div class="section-title">My Resume</div>
+      <div class="section-sub">Full CV, viewable inline. Zoom, open full-screen, or download the original file.</div>
+    </div>
+
+    <div class="doc-window">
+      <div class="doc-titlebar">
+        <div class="dots"><span class="r"></span><span class="y"></span><span class="g"></span></div>
+        <div class="filename">Sarwar_Alam_CV.jpg <span class="verified-badge mono">ORIGINAL FILE</span></div>
+        <div></div>
+      </div>
+      <div class="doc-body" id="docBody">
+        <img id="cvImage" src="images/cv.jpg" alt="Sarwar Alam CV" />
+      </div>
+      <div class="doc-controls">
+        <div class="zoom-controls">
+          <button class="icon-btn" id="zoomOut" aria-label="Zoom out">−</button>
+          <span class="zoom-pct mono" id="zoomPct">100%</span>
+          <button class="icon-btn" id="zoomIn" aria-label="Zoom in">+</button>
+          <button class="icon-btn" id="zoomReset" aria-label="Reset zoom" title="Reset">⤾</button>
+        </div>
+        <div class="doc-actions">
+          <button class="btn btn-outline" id="fullscreenCv">⛶ Full Screen</button>
+          <a class="btn btn-outline" id="openTabCv" href="images/cv.jpg" target="_blank" rel="noopener">↗ Open in New Tab</a>
+          <a class="btn btn-primary" href="images/cv.jpg" download="Sarwar_Alam_CV.jpg">⬇ Download CV</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="certificates">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-tag">02 — Credentials</div>
+      <div class="section-title">Certifications &amp; Credentials</div>
+      <div class="section-sub">Original certificate files. Click any card to open a full-screen viewer with zoom and navigation.</div>
+    </div>
+
+    <div class="cert-grid" id="certGrid">
+      <!-- cert cards injected below -->
+      <div class="cert-card" data-index="0">
+        <div class="cert-thumb"><img src="images/cert_infosys_cyber.jpg" alt="Introduction to Cyber Security certificate" loading="lazy"></div>
+        <div class="cert-status mono">✓ VERIFIED</div>
+        <div class="cert-info">
+          <div class="cert-name">Introduction to Cyber Security</div>
+          <div class="cert-org">Infosys Springboard</div>
+          <div class="cert-date">Issued March 24, 2026</div>
+          <div class="cert-desc">Course completion certificate for foundational cybersecurity concepts, issued via Infosys Springboard.</div>
+          <div class="cert-view">View Certificate ↗</div>
+        </div>
+      </div>
+
+      <div class="cert-card" data-index="1">
+        <div class="cert-thumb"><img src="images/cert_infosys_python.jpg" alt="Introduction to Python certificate" loading="lazy"></div>
+        <div class="cert-status mono">✓ VERIFIED</div>
+        <div class="cert-info">
+          <div class="cert-name">Introduction to Python</div>
+          <div class="cert-org">Infosys Springboard</div>
+          <div class="cert-date">Issued January 28, 2026</div>
+          <div class="cert-desc">Course completion certificate covering Python programming fundamentals.</div>
+          <div class="cert-view">View Certificate ↗</div>
+        </div>
+      </div>
+
+      <div class="cert-card" data-index="2">
+        <div class="cert-thumb"><img src="images/cert_tech_veda.jpg" alt="Effective Time Management certificate" loading="lazy"></div>
+        <div class="cert-status mono">✓ VERIFIED</div>
+        <div class="cert-info">
+          <div class="cert-name">Effective Time Management</div>
+          <div class="cert-org">Tech Veda</div>
+          <div class="cert-date">Dated October 29, 2025</div>
+          <div class="cert-desc">Certificate of Appreciation for completing a 5-hour MOOC including a proctored examination.</div>
+          <div class="cert-view">View Certificate ↗</div>
+        </div>
+      </div>
+
+      <div class="cert-card" data-index="3">
+        <div class="cert-thumb"><img src="images/cert_roti_bank.jpg" alt="Roti Bank Bettiah internship certificate" loading="lazy"></div>
+        <div class="cert-status mono">✓ VERIFIED</div>
+        <div class="cert-info">
+          <div class="cert-name">Certificate of Internship</div>
+          <div class="cert-org">Roti Bank Bettiah Trust</div>
+          <div class="cert-date">From July 1, 2026 · 30 hours</div>
+          <div class="cert-desc">Internship certificate for a community food-distribution initiative supporting people in need.</div>
+          <div class="cert-view">View Certificate ↗</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="education">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-tag">03 — Background</div>
+      <div class="section-title">Education &amp; Training</div>
+    </div>
+    <div class="about-grid">
+      <div>
+        <div class="chip-label" style="margin-bottom:14px;">Education</div>
+        <div class="timeline-item">
+          <h4>Bachelor of Technology, CSE</h4>
+          <div class="t-org">Lovely Professional University · Phagwara, Punjab</div>
+          <div class="t-meta">Aug '25 – Present · CGPA 8.69</div>
+        </div>
+        <div class="timeline-item">
+          <h4>Intermediate (PCM)</h4>
+          <div class="t-org">Kendriya Vidyalaya Bettiah · West Champaran, Bihar</div>
+          <div class="t-meta">Mar '22 – May '24 · 72%</div>
+        </div>
+        <div class="timeline-item">
+          <h4>Matriculation</h4>
+          <div class="t-org">Kendriya Vidyalaya Bettiah · Dhanbad, Jharkhand</div>
+          <div class="t-meta">Mar '21 – May '22 · 85%</div>
+        </div>
+      </div>
+      <div>
+        <div class="chip-label" style="margin-bottom:14px;">Training</div>
+        <div class="timeline-item">
+          <h4>Community Development Project</h4>
+          <div class="t-org">Roti Bank Bettiah — Food Distribution Drive</div>
+          <div class="t-meta">Jul '26 – Aug '26</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="wrap">
+    <div class="brand">Sarwar Alam</div>
+    <div class="mono" style="font-size:12px;">sarwar11012006@gmail.com · +91 9341097330</div>
+  </div>
+</footer>
+
+<!-- LIGHTBOX -->
+<div class="lightbox-overlay" id="lightbox">
+  <div class="lightbox-top">
+    <div class="lb-title mono" id="lbTitle">Certificate</div>
+    <button class="lightbox-close" id="lbClose" aria-label="Close">✕</button>
+  </div>
+  <div class="lightbox-stage">
+    <button class="lightbox-nav lb-prev" id="lbPrev" aria-label="Previous">‹</button>
+    <img id="lbImage" src="" alt="Certificate full view">
+    <button class="lightbox-nav lb-next" id="lbNext" aria-label="Next">›</button>
+  </div>
+  <div class="lightbox-bottom">
+    <button class="icon-btn" id="lbZoomOut" aria-label="Zoom out">−</button>
+    <span class="zoom-pct mono" id="lbZoomPct">100%</span>
+    <button class="icon-btn" id="lbZoomIn" aria-label="Zoom in">+</button>
+    <button class="btn btn-outline" id="lbFullscreen">⛶ Full Screen</button>
+    <a class="btn btn-primary" id="lbDownload" href="" download>⬇ Download</a>
+  </div>
+</div>
+
+<script>
+  const certs = [
+    { src: "images/cert_infosys_cyber.jpg", title: "Introduction to Cyber Security — Infosys Springboard", file: "Cert_Cyber_Security.jpg" },
+    { src: "images/cert_infosys_python.jpg", title: "Introduction to Python — Infosys Springboard", file: "Cert_Python.jpg" },
+    { src: "images/cert_tech_veda.jpg", title: "Effective Time Management — Tech Veda", file: "Cert_Time_Management.jpg" },
+    { src: "images/cert_roti_bank.jpg", title: "Internship — Roti Bank Bettiah Trust", file: "Cert_Roti_Bank_Internship.jpg" },
+  ];
+
+  let currentIndex = 0;
+  let lbZoom = 1;
+
+  const lightbox = document.getElementById('lightbox');
+  const lbImage = document.getElementById('lbImage');
+  const lbTitle = document.getElementById('lbTitle');
+  const lbDownload = document.getElementById('lbDownload');
+  const lbZoomPct = document.getElementById('lbZoomPct');
+
+  function openLightbox(index){
+    currentIndex = index;
+    lbZoom = 1;
+    updateLightbox();
+    lightbox.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  function updateLightbox(){
+    const c = certs[currentIndex];
+    lbImage.src = c.src;
+    lbImage.style.transform = `scale(${lbZoom})`;
+    lbTitle.textContent = c.title;
+    lbDownload.href = c.src;
+    lbDownload.setAttribute('download', c.file);
+    lbZoomPct.textContent = Math.round(lbZoom*100) + '%';
+  }
+  function closeLightbox(){
+    lightbox.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+  document.querySelectorAll('.cert-card').forEach(card => {
+    card.addEventListener('click', () => openLightbox(parseInt(card.dataset.index)));
+    card.addEventListener('keydown', e => { if(e.key === 'Enter') openLightbox(parseInt(card.dataset.index)); });
+    card.setAttribute('tabindex', '0');
+  });
+  document.getElementById('lbClose').addEventListener('click', closeLightbox);
+  document.getElementById('lbPrev').addEventListener('click', () => { currentIndex = (currentIndex - 1 + certs.length) % certs.length; lbZoom = 1; updateLightbox(); });
+  document.getElementById('lbNext').addEventListener('click', () => { currentIndex = (currentIndex + 1) % certs.length; lbZoom = 1; updateLightbox(); });
+  document.getElementById('lbZoomIn').addEventListener('click', () => { lbZoom = Math.min(lbZoom + 0.25, 3); updateLightbox(); });
+  document.getElementById('lbZoomOut').addEventListener('click', () => { lbZoom = Math.max(lbZoom - 0.25, 0.5); updateLightbox(); });
+  document.getElementById('lbFullscreen').addEventListener('click', () => {
+    if(lbImage.requestFullscreen) lbImage.requestFullscreen();
+  });
+  lightbox.addEventListener('click', (e) => { if(e.target === lightbox) closeLightbox(); });
+  document.addEventListener('keydown', (e) => {
+    if(!lightbox.classList.contains('active')) return;
+    if(e.key === 'Escape') closeLightbox();
+    if(e.key === 'ArrowLeft') document.getElementById('lbPrev').click();
+    if(e.key === 'ArrowRight') document.getElementById('lbNext').click();
+  });
+
+  // CV viewer controls
+  const cvImage = document.getElementById('cvImage');
+  let cvZoom = 1;
+  const zoomPct = document.getElementById('zoomPct');
+  function setCvZoom(z){
+    cvZoom = Math.max(0.5, Math.min(z, 3));
+    cvImage.style.transform = `scale(${cvZoom})`;
+    zoomPct.textContent = Math.round(cvZoom*100) + '%';
+    cvImage.classList.toggle('zoomed', cvZoom > 1);
+  }
+  document.getElementById('zoomIn').addEventListener('click', () => setCvZoom(cvZoom + 0.25));
+  document.getElementById('zoomOut').addEventListener('click', () => setCvZoom(cvZoom - 0.25));
+  document.getElementById('zoomReset').addEventListener('click', () => setCvZoom(1));
+  cvImage.addEventListener('click', () => setCvZoom(cvZoom > 1 ? 1 : 1.6));
+  document.getElementById('fullscreenCv').addEventListener('click', () => {
+    const docBody = document.getElementById('docBody');
+    if(docBody.requestFullscreen) docBody.requestFullscreen();
+  });
+
+  // download CV button in hero mirrors main download
+  document.getElementById('downloadCvBtn').addEventListener('click', function(e){
+    e.preventDefault();
+    const a = document.createElement('a');
+    a.href = cvImage.src;
+    a.download = 'Sarwar_Alam_CV.jpg';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  });
+</script>
+</body>
+</html>
