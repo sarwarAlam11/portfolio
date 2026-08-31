@@ -15,7 +15,7 @@ IMAGES = os.path.join(BASE, "images")
 
 subs = {
     "images/profile.jpg": b64(os.path.join(IMAGES, "profile.jpg")),
-    "images/cv.jpg": b64(os.path.join(IMAGES, "cv.jpg")),
+    "Sarwar%20Alam%20CV.pdf": b64(os.path.join(BASE, "Sarwar Alam CV.pdf"), "application/pdf"),
     "images/cert_infosys_cyber.jpg": b64(os.path.join(IMAGES, "cert_infosys_cyber.jpg")),
     "images/cert_infosys_python.jpg": b64(os.path.join(IMAGES, "cert_infosys_python.jpg")),
     "images/cert_tech_veda.jpg": b64(os.path.join(IMAGES, "cert_tech_veda.jpg")),

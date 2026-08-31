@@ -161,6 +161,9 @@
     max-width:100%; height:auto; border-radius:4px; box-shadow:0 10px 40px rgba(0,0,0,0.5);
     transition:transform .25s ease; cursor:zoom-in; transform-origin:top center;
   }
+  .doc-body iframe{
+    width:100%; height:580px; border:0; border-radius:4px; background:#fff;
+  }
   .doc-body img.zoomed{cursor:zoom-out;}
   .doc-controls{
     display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;
@@ -346,17 +349,17 @@
     <div class="section-head">
       <div class="section-tag">01 — Resume</div>
       <div class="section-title">My Resume</div>
-      <div class="section-sub">Full CV, viewable inline. Zoom, open full-screen, or download the original file.</div>
+      <div class="section-sub">Latest CV, viewable inline. Open it in a new tab or download the original PDF.</div>
     </div>
 
     <div class="doc-window">
       <div class="doc-titlebar">
         <div class="dots"><span class="r"></span><span class="y"></span><span class="g"></span></div>
-        <div class="filename">Sarwar_Alam_CV.jpg <span class="verified-badge mono">ORIGINAL FILE</span></div>
+        <div class="filename">Sarwar_Alam_CV.pdf <span class="verified-badge mono">LATEST FILE</span></div>
         <div></div>
       </div>
       <div class="doc-body" id="docBody">
-        <img id="cvImage" src="images/cv.jpg" alt="Sarwar Alam CV" />
+        <iframe id="cvDocument" src="Sarwar%20Alam%20CV.pdf" title="Sarwar Alam CV"></iframe>
       </div>
       <div class="doc-controls">
         <div class="zoom-controls">
@@ -367,8 +370,8 @@
         </div>
         <div class="doc-actions">
           <button class="btn btn-outline" id="fullscreenCv">⛶ Full Screen</button>
-          <a class="btn btn-outline" id="openTabCv" href="images/cv.jpg" target="_blank" rel="noopener">↗ Open in New Tab</a>
-          <a class="btn btn-primary" href="images/cv.jpg" download="Sarwar_Alam_CV.jpg">⬇ Download CV</a>
+          <a class="btn btn-outline" id="openTabCv" href="Sarwar%20Alam%20CV.pdf" target="_blank" rel="noopener">↗ Open in New Tab</a>
+          <a class="btn btn-primary" href="Sarwar%20Alam%20CV.pdf" download="Sarwar_Alam_CV.pdf">⬇ Download CV</a>
         </div>
       </div>
     </div>
@@ -559,7 +562,7 @@
   });
 
   // CV viewer controls
-  const cvImage = document.getElementById('cvImage');
+  const cvImage = document.getElementById('cvDocument');
   let cvZoom = 1;
   const zoomPct = document.getElementById('zoomPct');
   function setCvZoom(z){
@@ -582,7 +585,7 @@
     e.preventDefault();
     const a = document.createElement('a');
     a.href = cvImage.src;
-    a.download = 'Sarwar_Alam_CV.jpg';
+    a.download = 'Sarwar_Alam_CV.pdf';
     document.body.appendChild(a);
     a.click();
     a.remove();
